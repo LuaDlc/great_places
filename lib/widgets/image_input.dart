@@ -1,4 +1,7 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 
 class ImageInput extends StatefulWidget {
   const ImageInput({super.key});
@@ -8,6 +11,22 @@ class ImageInput extends StatefulWidget {
 }
 
 class _ImageInputState extends State<ImageInput> {
+  File? _storedImage;
+
+  _takePicture() async {
+    //async para poder usar o await ja que o imagePicker tem metodos async
+    final ImagePicker picker = ImagePicker(); //instancia do imagepicker
+    //com a instancia podemos chamar o metodo getImage pra pegar uma imagem
+    XFile imageFile = await picker.pickImage(
+        source: ImageSource.camera, maxWidth: 600) as XFile;
+
+    //caso nao seja nulo chama o setState para alterar o estado do componente
+    setState(() {
+      _storedImage = File(
+          imageFile.path); //armazena a imagem no estado do componente (file
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Row(
@@ -21,12 +40,19 @@ class _ImageInputState extends State<ImageInput> {
           ),
           //alinhamento do conteudo dentro do container
           alignment: Alignment.center,
-          child: const Text('Nenhuma imagem'),
+          child: _storedImage != null
+              ? Image.file(
+                  _storedImage!,
+                  width: double.infinity,
+                  fit: BoxFit.cover,
+                )
+              : Text('Nenhuma imagem'),
         ),
         const SizedBox(width: 10), //espaco entre o preview e o botao
         Expanded(
           child: TextButton.icon(
-            onPressed: () {},
+            onPressed:
+                _takePicture, //chama o takePicture sempre q pedir pra tirar uma foto
             icon: const Icon(Icons.camera),
             label: Text(
               'Tirar foto',
