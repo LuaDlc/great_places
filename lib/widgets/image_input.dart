@@ -1,10 +1,16 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 
 class ImageInput extends StatefulWidget {
-  const ImageInput({super.key});
+  const ImageInput(
+    this.onSelectImage, {
+    Key? key,
+  }) : super(key: key);
+
+  final Function? onSelectImage;
 
   @override
   State<ImageInput> createState() => _ImageInputState();
@@ -25,6 +31,8 @@ class _ImageInputState extends State<ImageInput> {
       _storedImage = File(
           imageFile.path); //armazena a imagem no estado do componente (file
     });
+
+    // widget.onSelectImge(...);
   }
 
   @override
@@ -46,7 +54,7 @@ class _ImageInputState extends State<ImageInput> {
                   width: double.infinity,
                   fit: BoxFit.cover,
                 )
-              : Text('Nenhuma imagem'),
+              : const Text('Nenhuma imagem'),
         ),
         const SizedBox(width: 10), //espaco entre o preview e o botao
         Expanded(

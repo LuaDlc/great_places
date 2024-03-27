@@ -1,8 +1,10 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:great_places/widgets/image_input.dart';
 
 class PlaceFormPage extends StatefulWidget {
-  const PlaceFormPage({super.key});
+  const PlaceFormPage({Key? key}) : super(key: key);
 
   @override
   State<PlaceFormPage> createState() => _PlaceFormPageState();
@@ -10,8 +12,16 @@ class PlaceFormPage extends StatefulWidget {
 
 class _PlaceFormPageState extends State<PlaceFormPage> {
   final _titleController = TextEditingController();
+  File? pickedImage;
 
-  void _submitForm() {}
+  void _selectImage(File pickedImage) {
+    //setar a imagem que pertence ao meu estado usando a imagem q acabei de receber
+    pickedImage = pickedImage;
+  }
+
+  void _submitForm() {
+    //aqui vamos verificar se o titulo esta definido e se a imagem esta selecionada
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -35,7 +45,7 @@ class _PlaceFormPageState extends State<PlaceFormPage> {
                   const SizedBox(
                     height: 10,
                   ),
-                  const ImageInput()
+                  ImageInput(_selectImage)
                 ]),
               ),
             ),
