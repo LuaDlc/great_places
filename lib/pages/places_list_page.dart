@@ -17,8 +17,8 @@ class PlacesListPage extends StatelessWidget {
               icon: const Icon(Icons.add))
         ],
       ),
-      body: Container(
-        child: const CircularProgressIndicator(),
+      body: const Center(
+        child: CircularProgressIndicator(),
       ),
     );
   }
