@@ -1,7 +1,9 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:great_places/providers/greate_places.dart';
 import 'package:great_places/widgets/image_input.dart';
+import 'package:provider/provider.dart';
 
 class PlaceFormPage extends StatefulWidget {
   const PlaceFormPage({Key? key}) : super(key: key);
@@ -21,7 +23,16 @@ class _PlaceFormPageState extends State<PlaceFormPage> {
 
   void _submitForm() {
     //aqui vamos verificar se o titulo esta definido e se a imagem esta selecionada
+    if (_titleController.text.isEmpty || pickedImage == null) {
+      return;
+    }
+    Provider.of<GreatePlaces>(context, listen: false)
+        .addPlace(_titleController.text, pickedImage!);
+    // o comportamento esperado é que se as informacoes estiverem preenchidas
+    //com o nome e a imagem, o formulario sera submetido e a tela sera fechada
+    Navigator.of(context).pop();
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
