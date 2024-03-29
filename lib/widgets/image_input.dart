@@ -3,6 +3,8 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:path/path.dart' as path;
+import 'package:path_provider/path_provider.dart' as syspaths;
 
 class ImageInput extends StatefulWidget {
   const ImageInput(
@@ -31,8 +33,18 @@ class _ImageInputState extends State<ImageInput> {
       _storedImage = File(
           imageFile.path); //armazena a imagem no estado do componente (file
     });
+    //pegando o diretorio/pasta onde vamos armazenar a imagem usando o path_provider
+    final appDir = await syspaths.getApplicationDocumentsDirectory();
+    //pegando exatamente o nome da imagem
+    String fileName = path.basename(
+        _storedImage!.path); //a aprtir do path pego apenas o nome do arquivo
+    //gerar uma copia da imagem e salva dentro do diretorio
+    final saveImage = await _storedImage!.copy(
+        '${appDir.path}/$fileName'); //na interpolacao tem exatamente o caminho q quero fazer9fileName é o base name do arquivo
+    //chama a funcao que foi passada como parametro no construtor do widget passando a imagem
+    //e o componente de formulario sera notificadoq uando essa iamgem for persistida na pasta
 
-    // widget.onSelectImge(...);
+    widget.onSelectImage!(saveImage);
   }
 
   @override
