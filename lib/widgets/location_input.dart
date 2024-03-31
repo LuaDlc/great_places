@@ -1,4 +1,7 @@
+import 'dart:js_interop';
+
 import 'package:flutter/material.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:great_places/pages/map_page.dart';
 import 'package:great_places/utils/location_util.dart';
 import 'package:location/location.dart';
@@ -28,11 +31,14 @@ class _LocationInputState extends State<LocationInput> {
   Future<void> _selectOnMap() async {
     //navegar para a tela e retornar com um objeto
     // quando fizer um pop dentro dessa tela mapPage ele vai rtornar um location
-    final selectedLocation = await Navigator.of(context).push(MaterialPageRoute(
+    final LatLng selectedPosition =
+        await Navigator.of(context).push(MaterialPageRoute(
       fullscreenDialog: true,
       builder: (ctx) => const MapPage(),
     ));
-    if (selectedLocation == null) return;
+    if (selectedPosition.isNull) return;
+
+    print(selectedPosition.latitude);
   }
 
   @override

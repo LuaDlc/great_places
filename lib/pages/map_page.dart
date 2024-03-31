@@ -35,6 +35,16 @@ class _MapPageState extends State<MapPage> {
     return Scaffold(
         appBar: AppBar(
           title: const Text('Selecione...'),
+          actions: [
+            if (!widget.isReadOnly)
+              IconButton(
+                  onPressed: _pickedPosition == null
+                      ? null
+                      : () {
+                          Navigator.of(context).pop(_pickedPosition);
+                        },
+                  icon: const Icon(Icons.check))
+          ],
         ),
         body: GoogleMap(
           initialCameraPosition: CameraPosition(
