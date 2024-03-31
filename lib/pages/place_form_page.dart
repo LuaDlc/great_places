@@ -1,8 +1,9 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:great_places/providers/greate_places.dart';
+import 'package:great_places/providers/great_places.dart';
 import 'package:great_places/widgets/image_input.dart';
+import 'package:great_places/widgets/location_input.dart';
 import 'package:provider/provider.dart';
 
 class PlaceFormPage extends StatefulWidget {
@@ -56,7 +57,11 @@ class _PlaceFormPageState extends State<PlaceFormPage> {
                   const SizedBox(
                     height: 10,
                   ),
-                  ImageInput(_selectImage)
+                  ImageInput(_selectImage),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  const LocationInput()
                 ]),
               ),
             ),
