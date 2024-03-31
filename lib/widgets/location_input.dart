@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:great_places/pages/map_page.dart';
 import 'package:great_places/utils/location_util.dart';
 import 'package:location/location.dart';
 
@@ -22,6 +23,16 @@ class _LocationInputState extends State<LocationInput> {
     setState(() {
       _previewImageUrl = staticMapImageUrl;
     });
+  }
+
+  Future<void> _selectOnMap() async {
+    //navegar para a tela e retornar com um objeto
+    // quando fizer um pop dentro dessa tela mapPage ele vai rtornar um location
+    final selectedLocation = await Navigator.of(context).push(MaterialPageRoute(
+      fullscreenDialog: true,
+      builder: (ctx) => const MapPage(),
+    ));
+    if (selectedLocation == null) return;
   }
 
   @override
@@ -55,7 +66,7 @@ class _LocationInputState extends State<LocationInput> {
               ),
             ),
             TextButton.icon(
-              onPressed: () {},
+              onPressed: _selectOnMap,
               icon: const Icon(Icons.map),
               label: const Text('Selecione no mapa'),
             )
