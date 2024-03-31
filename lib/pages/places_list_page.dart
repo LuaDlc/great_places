@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:great_places/providers/greate_places.dart';
+import 'package:great_places/providers/great_places.dart';
 import 'package:great_places/utils/app_routes.dart';
 import 'package:provider/provider.dart';
 
@@ -19,22 +19,33 @@ class PlacesListPage extends StatelessWidget {
                 icon: const Icon(Icons.add))
           ],
         ),
-        body: Consumer<GreatePlaces>(
-            child: const Center(
-              child: Text('nenhum local cadastrado'),
-            ),
-            builder: (context, greatPlaces, ch) => greatPlaces.itemsCount == 0
-                ? ch!
-                : ListView.builder(
-                    itemCount: greatPlaces.itemsCount,
-                    itemBuilder: (ctx, i) => ListTile(
-                          leading: CircleAvatar(
-                            backgroundImage: FileImage(greatPlaces
-                                .itemByIndex(i)
-                                .image), //nosso arquivo da camera é o background
-                          ),
-                          title: Text(greatPlaces.itemByIndex(i).title),
-                          onTap: () {},
-                        ))));
+        body: FutureBuilder(
+          future:
+              Provider.of<GreatePlaces>(context, listen: false).loadPlaces(),
+          builder: (ctx, snapshot) => snapshot.connectionState ==
+                  ConnectionState.waiting
+              ? const Center(
+                  child: CircularProgressIndicator(),
+                )
+              : Consumer<GreatePlaces>(
+                  child: const Center(
+                    child: Text('nenhum local cadastrado'),
+                  ),
+                  builder: (context, greatPlaces, ch) =>
+                      greatPlaces.itemsCount == 0
+                          ? ch!
+                          : ListView.builder(
+                              itemCount: greatPlaces.itemsCount,
+                              itemBuilder: (ctx, i) => ListTile(
+                                    leading: CircleAvatar(
+                                      backgroundImage: FileImage(greatPlaces
+                                          .itemByIndex(i)
+                                          .image), //nosso arquivo da camera é o background
+                                    ),
+                                    title:
+                                        Text(greatPlaces.itemByIndex(i).title),
+                                    onTap: () {},
+                                  ))),
+        ));
   }
 }
